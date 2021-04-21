@@ -11,8 +11,17 @@ class HealthCheck(TestCase):
         found = resolve('/health-check')
         self.assertEqual(found.func, health_check_view)
 
-    def test_models_create_especialidade_with_blank_description(self):
+    def test_models_validate_create_especialidade_with_blank_description(self):
         obj = Especialidade(description="")
         with self.assertRaises(ValidationError):
             obj.save()
             obj.full_clean()
+    
+    def test_models_validate_create_especialidade_with_too_long_text(self):
+        obj = Especialidade(description=self._text_greather_than_200_chars())
+        with self.assertRaises(ValidationError):
+            obj.save()
+            obj.full_clean()
+
+    def _text_greather_than_200_chars(self):
+        return "--" * 200
