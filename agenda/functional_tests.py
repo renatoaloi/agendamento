@@ -55,8 +55,8 @@ class AgendaFunctionalTests(FunctionalTestsBase):
         try:
             json_data = {
                 "profissional_id": 2,
-                "data": "5454",
-                "hora": "12423"
+                "data": "21/04/2021",
+                "hora": "12:12"
             }
             r = requests.post(f'{self.host}agenda/create', json=json_data)
             self.assertTrue(self.is_server_working(r.status_code))
