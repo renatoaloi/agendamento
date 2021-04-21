@@ -7,8 +7,20 @@ def health_check_view(request):
 
 @require_GET
 def agenda_list_view(request):
-    return JsonResponse(data={})
+    return JsonResponse(data={
+        'profissional': '',
+        'data': '',
+        'hora': '',
+        'especialidade': '',
+        'crm': ''
+    })
 
 @require_POST
 def agenda_create_view(request):
-    return JsonResponse(data={})
+    return JsonResponse(data={
+        'id': 0,
+        'especialidade': '',
+        'profissional': '',
+        'data': '',
+        'hora': ''
+    })
