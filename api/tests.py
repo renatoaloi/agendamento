@@ -10,6 +10,7 @@ from django.db.utils import IntegrityError
 from api.views import health_check_view
 from api.models import Especialidade, Profissional, Agenda
 
+
 class HealthCheck(TestCase):
 
     def test_site_health_check(self):
@@ -29,38 +30,58 @@ class HealthCheck(TestCase):
             obj.full_clean()
     
     def test_models_validate_create_profissional_with_blank_name(self):
-        especialidade_ = Especialidade(description="Teste")
-        obj = Profissional(name="", crm="1234", especialidade=especialidade_)
+        especialidade_ = Especialidade(description=self._generate_dummy_description())
+        obj = Profissional(
+            name="", 
+            crm=self._generate_4_digits_string(), 
+            especialidade=especialidade_
+        )
         with self.assertRaises(ValidationError):
             especialidade_.save()
             obj.save()
             obj.full_clean()
     
     def test_models_validate_create_profissional_with_blank_crm(self):
-        especialidade_ = Especialidade(description="Teste")
-        obj = Profissional(name="Jose", crm="", especialidade=especialidade_)
+        especialidade_ = Especialidade(description=self._generate_dummy_description())
+        obj = Profissional(
+            name=self._generate_dummy_description(), 
+            crm="", 
+            especialidade=especialidade_
+        )
         with self.assertRaises(ValidationError):
             especialidade_.save()
             obj.save()
             obj.full_clean()
     
     def test_models_validate_create_profissional_with_blank_especialidade(self):
-        obj = Profissional(name="Jose", crm="1234", especialidade=None)
+        obj = Profissional(
+            name=self._generate_dummy_description(), 
+            crm=self._generate_4_digits_string(), 
+            especialidade=None
+        )
         with self.assertRaises(IntegrityError):
             obj.save()
             obj.full_clean()
     
     def test_models_validate_create_profissional_with_too_long_name(self):
-        especialidade_ = Especialidade(description="Teste")
-        obj = Profissional(name=self._text_greather_than_200_chars(), crm="1234", especialidade=especialidade_)
+        especialidade_ = Especialidade(description=self._generate_dummy_description())
+        obj = Profissional(
+            name=self._text_greather_than_200_chars(), 
+            crm=self._generate_4_digits_string(), 
+            especialidade=especialidade_
+        )
         with self.assertRaises(ValidationError):
             especialidade_.save()
             obj.save()
             obj.full_clean()
     
     def test_models_validate_create_profissional_with_too_long_crm(self):
-        especialidade_ = Especialidade(description="Teste")
-        obj = Profissional(name="Jose", crm=self._text_greather_than_50_chars(), especialidade=especialidade_)
+        especialidade_ = Especialidade(description=self._generate_dummy_description())
+        obj = Profissional(
+            name=self._generate_dummy_description(), 
+            crm=self._text_greather_than_50_chars(), 
+            especialidade=especialidade_
+        )
         with self.assertRaises(ValidationError):
             especialidade_.save()
             obj.save()
@@ -73,8 +94,12 @@ class HealthCheck(TestCase):
             obj.full_clean()
     
     def test_models_validate_create_agenda_with_null_date_time(self):
-        especialidade_ = Especialidade(description="teste")
-        profissional_ = Profissional(name="Teste", crm="1234", especialidade=especialidade_)
+        especialidade_ = Especialidade(description=self._generate_dummy_description())
+        profissional_ = Profissional(
+            name=self._generate_dummy_description(), 
+            crm=self._generate_4_digits_string(), 
+            especialidade=especialidade_
+        )
         obj = Agenda(profissional=profissional_, data_hora=None)
         with self.assertRaises(IntegrityError):
             especialidade_.save()
@@ -83,14 +108,27 @@ class HealthCheck(TestCase):
             obj.full_clean()
     
     def test_models_validate_create_agenda_with_invalid_date_time(self):
-        especialidade_ = Especialidade(description="teste")
-        profissional_ = Profissional(name="Teste", crm="1234", especialidade=especialidade_)
-        obj = Agenda(profissional=profissional_, data_hora=self._generate_magic_invalid_date())
+        especialidade_ = Especialidade(description=self._generate_dummy_description())
+        profissional_ = Profissional(
+            name=self._generate_dummy_description(), 
+            crm=self._generate_4_digits_string(), 
+            especialidade=especialidade_
+        )
+        obj = Agenda(
+            profissional=profissional_, 
+            data_hora=self._generate_magic_invalid_date()
+        )
         with self.assertRaises(ValidationError):
             especialidade_.save()
             profissional_.save()
             obj.save()
             obj.full_clean()
+
+    def _generate_4_digits_string(self):
+        return "1234"
+
+    def _generate_dummy_description(self):
+        return "dummy"
     
     def _generate_magic_invalid_date(self):
         return '2020-13-32 25:55:69'
