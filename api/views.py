@@ -63,11 +63,11 @@ def agenda_list_view(request):
     for agenda in agendas:
         json_de_retorno.append(
             {
-                'profissional': '',
-                'data': '',
-                'hora': '',
-                'especialidade': '',
-                'crm': ''
+                'profissional': agenda.profissional.name,
+                'data': agenda.data_hora.strftime('%d/%m/%Y'),
+                'hora': agenda.data_hora.strftime('%H:%M'),
+                'especialidade': agenda.profissional.especialidade.description,
+                'crm': agenda.profissional.crm
             }
         )
     return JsonResponse(data=json_de_retorno, safe=False)
