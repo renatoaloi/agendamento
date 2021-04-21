@@ -13,7 +13,8 @@ class AgendaFunctionalTest(unittest.TestCase):
 
     def test_if_server_is_up_and_running(self):
         try:
-            r = requests.get(os.environ.get('APP_HOST', 'http://localhost:8000/'))
+            host = os.environ.get('APP_HOST', 'http://localhost:8000/')
+            r = requests.get(f'{host}health-check')
             self.assertTrue(self.is_server_working(r.status_code))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
