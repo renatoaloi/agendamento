@@ -21,6 +21,9 @@ class FunctionalTestsBase(unittest.TestCase):
 
     def is_server_working(self, status_code):
         return status_code == 200
+    
+    def check_if_is_bad_request(self, status_code):
+        return status_code == 400
 
 
 class HealthFunctionalTests(FunctionalTestsBase):
@@ -70,9 +73,25 @@ class AgendaFunctionalTests(FunctionalTestsBase):
             self.assertTrue(self.check_if_is_bad_request(r.status_code))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
-
-    def check_if_is_bad_request(self, status_code):
-        return status_code == 400
+    
+    def test_validate_create_two_appointments_at_same_time(self):
+        try:
+            json_data = {
+                "profissional_id": 2,
+                "data": "23/04/2021",
+                "hora": "10:30"
+            }
+            r = requests.post(f'{self.host}agenda/create', json=json_data)
+            self.assertTrue(self.is_server_working(r.status_code))
+            json_data = {
+                "profissional_id": 2,
+                "data": "23/04/2021",
+                "hora": "10:30"
+            }
+            r = requests.post(f'{self.host}agenda/create', json=json_data)
+            self.assertTrue(self.check_if_is_bad_request(r.status_code))
+        except Exception as e:
+            self.fail(f'Something went badly! Reason: {str(e)}')
 
     def validate_list_json_data(self, json_data):
         return 'profissional' in json_data and \
