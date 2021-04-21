@@ -141,3 +141,9 @@ class HealthCheck(TestCase):
     
     def _text_greather_than_N_chars(self, N):
         return "-" * N + "-"
+
+class RestCheck(TestCase):
+
+    def test_fetch_agenda_list(self):
+        found = resolve('/health-check')
+        self.assertEqual(found.func, health_check_view)
