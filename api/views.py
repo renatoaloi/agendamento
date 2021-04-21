@@ -1,4 +1,6 @@
-from django.http import JsonResponse
+import json
+
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
 
 from api.models import Agenda
@@ -35,6 +37,13 @@ def agenda_list_view(request):
 @require_POST
 @futuramente_verificar_login
 def agenda_create_view(request):
+    json_body = json.loads(request.body)
+    if 'especialidade_id' not in json_body or \
+        'profissional_id' not in json_body or \
+        'data' not in json_body or \
+        'hora' not in json_body:
+
+        return HttpResponseBadRequest(content={})
     return JsonResponse(data={
         'id': 0,
         'especialidade': '',

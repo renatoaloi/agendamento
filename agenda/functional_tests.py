@@ -53,12 +53,28 @@ class AgendaFunctionalTests(FunctionalTestsBase):
         
     def test_validate_create_json_response(self):
         try:
-            r = requests.post(f'{self.host}agenda/create', json={ 'data': '' })
+            json_data = {
+                "especialidade_id":1,
+                "profissional_id":2,
+                "data": "5454",
+                "hora": "12423"
+            }
+            r = requests.post(f'{self.host}agenda/create', json=json_data)
             self.assertTrue(self.is_server_working(r.status_code))
             self.assertTrue(self.validate_create_json_data(r.json()))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
     
+    def test_validate_create_with_invalid_fields(self):
+        try:
+            r = requests.post(f'{self.host}agenda/create', json={ 'nada': '' })
+            self.assertTrue(self.check_if_is_bad_request(r.status_code))
+        except Exception as e:
+            self.fail(f'Something went badly! Reason: {str(e)}')
+
+    def check_if_is_bad_request(self, status_code):
+        return status_code == 400
+
     def validate_list_json_data(self, json_data):
         return 'profissional' in json_data and \
                'data' in json_data and \
