@@ -85,12 +85,15 @@ class HealthCheck(TestCase):
     def test_models_validate_create_agenda_with_invalid_date_time(self):
         especialidade_ = Especialidade(description="teste")
         profissional_ = Profissional(name="Teste", crm="1234", especialidade=especialidade_)
-        obj = Agenda(profissional=profissional_, data_hora='2020-13-32 25:55:69')
+        obj = Agenda(profissional=profissional_, data_hora=self._generate_magic_invalid_date())
         with self.assertRaises(ValidationError):
             especialidade_.save()
             profissional_.save()
             obj.save()
             obj.full_clean()
+    
+    def _generate_magic_invalid_date(self):
+        return '2020-13-32 25:55:69'
 
     def _text_greather_than_200_chars(self):
         return self._text_greather_than_N_chars(200)
