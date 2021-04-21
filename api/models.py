@@ -7,3 +7,7 @@ class Profissional(models.Model):
     name = models.CharField(max_length=200)
     crm = models.CharField(max_length=50)
     especialidade = models.ForeignKey(Especialidade, on_delete=models.DO_NOTHING)
+
+class Agenda(models.Model):
+    profissional = models.ForeignKey(Profissional, on_delete=models.DO_NOTHING)
+    data_hora = models.DateTimeField()

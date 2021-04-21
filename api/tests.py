@@ -1,10 +1,14 @@
+import datetime as dt
+import pytz
+
+from django.utils import timezone
 from django.urls import resolve
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 
 from api.views import health_check_view
-from api.models import Especialidade, Profissional
+from api.models import Especialidade, Profissional, Agenda
 
 class HealthCheck(TestCase):
 
@@ -59,6 +63,32 @@ class HealthCheck(TestCase):
         obj = Profissional(name="Jose", crm=self._text_greather_than_50_chars(), especialidade=especialidade_)
         with self.assertRaises(ValidationError):
             especialidade_.save()
+            obj.save()
+            obj.full_clean()
+    
+    def test_models_validate_create_agenda_with_blank_profissional(self):
+        obj = Agenda(profissional=None, data_hora=timezone.now())
+        with self.assertRaises(IntegrityError):
+            obj.save()
+            obj.full_clean()
+    
+    def test_models_validate_create_agenda_with_null_date_time(self):
+        especialidade_ = Especialidade(description="teste")
+        profissional_ = Profissional(name="Teste", crm="1234", especialidade=especialidade_)
+        obj = Agenda(profissional=profissional_, data_hora=None)
+        with self.assertRaises(IntegrityError):
+            especialidade_.save()
+            profissional_.save()
+            obj.save()
+            obj.full_clean()
+    
+    def test_models_validate_create_agenda_with_invalid_date_time(self):
+        especialidade_ = Especialidade(description="teste")
+        profissional_ = Profissional(name="Teste", crm="1234", especialidade=especialidade_)
+        obj = Agenda(profissional=profissional_, data_hora='2020-13-32 25:55:69')
+        with self.assertRaises(ValidationError):
+            especialidade_.save()
+            profissional_.save()
             obj.save()
             obj.full_clean()
 
