@@ -1,0 +1,9 @@
+[
+    {
+        "model": "api.Especialidade",
+        "pk": 1,
+        "fields": {
+            "description": "Cardiologia"
+        }
+    }
+]

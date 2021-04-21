@@ -54,8 +54,7 @@ class AgendaFunctionalTests(FunctionalTestsBase):
     def test_validate_create_json_response(self):
         try:
             json_data = {
-                "especialidade_id":1,
-                "profissional_id":2,
+                "profissional_id": 2,
                 "data": "5454",
                 "hora": "12423"
             }

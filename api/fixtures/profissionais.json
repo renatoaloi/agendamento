@@ -1,0 +1,20 @@
+[
+    {
+        "model": "api.Profissional",
+        "pk": 1,
+        "fields": {
+            "name": "José",
+            "crm": "1234",
+            "especialidade_id": 1
+        }
+    },
+    {
+        "model": "api.Profissional",
+        "pk": 2,
+        "fields": {
+            "name": "Maria",
+            "crm": "4321",
+            "especialidade_id": 1
+        }
+    }
+]
