@@ -45,7 +45,9 @@ class AgendaFunctionalTests(FunctionalTestsBase):
         try:
             r = requests.get(f'{self.host}agenda/list')
             self.assertTrue(self.is_server_working(r.status_code))
-            self.assertTrue(self.validate_list_json_data(r.json()))
+            json_data = r.json()
+            for json in json_data:
+                self.assertTrue(self.validate_list_json_data(json))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
         
