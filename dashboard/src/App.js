@@ -4,7 +4,8 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      { 1==0 && (
+      <header className="App-header" >
         <div className="App-top">
           Aqui vai o topo
         </div>
@@ -27,17 +28,51 @@ function App() {
             </label>
 
             <label>
-              Data para marcação
+              Selecione o dia
               <input type="date" name="data" />
             </label>
 
             <label>
-              Hora desejada para a consulta
+              Selecione o horário
               <input type="time" name="hora" />
             </label>
 
-            <input type="submit" value="ENVIAR" className="Btn-Submit" />
+            <input type="submit" value="Continuar" className="Btn-Submit" />
           </form>
+        </div>
+        <div className="App-bottom">
+          Rodape
+        </div>
+      </header>
+      )}
+
+      <header className="App-header">
+        <div className="App-top">
+          Aqui vai o topo
+        </div>
+        <div className="App-content">
+          <div className="Card-List">
+            <div className="Card-List-Date">
+              <div>20</div>
+              <div>Abr</div>
+            </div>
+            <div className="Card-List-Body">
+              <p className="Card-Titulo">Chamada de vídeo com <br/>Dr. Fulano</p>
+              <p className="Card-Especialidade">Psicologia - CRM 1234</p>
+              <p className="Card-Data-Hora">Início as 12:12</p>
+            </div>
+          </div>
+          <div className="Card-List">
+            <div className="Card-List-Date">
+              <div>22</div>
+              <div>Mai</div>
+            </div>
+            <div className="Card-List-Body-Alternative">
+            <p className="Card-Titulo">Chamada de vídeo com <br/>Dr. Fulano</p>
+              <p className="Card-Especialidade">Psicologia - CRM 1234</p>
+              <p className="Card-Data-Hora">Início as 12:12</p>
+            </div>
+          </div>
         </div>
         <div className="App-bottom">
           Rodape
