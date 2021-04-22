@@ -22,10 +22,10 @@ label {
 }
 
 .Card-Titulo {
-  font-size: 1.2em;
+  font-size: 1em;
   color: #f7c0e1;
   margin-top: 0em;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .Card-Especialidade {
@@ -56,7 +56,7 @@ label {
 .Card-List-Date {
   padding: .5em;
   color: aqua;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 .Card-bottom {
@@ -120,8 +120,7 @@ label {
   align-self: center;
   text-transform: uppercase;
   font-size: 1.6em;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 .App-content {
