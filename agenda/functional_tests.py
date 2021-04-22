@@ -1,7 +1,7 @@
 import os
 import requests
 import unittest
-
+import datetime as dt
 
 class FunctionalTestsBase(unittest.TestCase):
 
@@ -53,13 +53,33 @@ class AgendaFunctionalTests(FunctionalTestsBase):
                 self.assertTrue(self.validate_list_json_data(json))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
+    
+    def test_validate_especialidades_list_json_response(self):
+        try:
+            r = requests.get(f'{self.host}agenda/especialidades/list')
+            self.assertTrue(self.is_server_working(r.status_code))
+            json_data = r.json()
+            for json in json_data:
+                self.assertTrue(self.validate_list_especialidades_json_data(json))
+        except Exception as e:
+            self.fail(f'Something went badly! Reason: {str(e)}')
+    
+    def test_validate_profissionais_list_json_response(self):
+        try:
+            r = requests.get(f'{self.host}agenda/profissionais/list')
+            self.assertTrue(self.is_server_working(r.status_code))
+            json_data = r.json()
+            for json in json_data:
+                self.assertTrue(self.validate_list_profissionais_json_data(json))
+        except Exception as e:
+            self.fail(f'Something went badly! Reason: {str(e)}')
         
     def test_validate_create_json_response(self):
         try:
             json_data = {
                 "profissional_id": 2,
-                "data": "21/04/2021",
-                "hora": "12:12"
+                "data": "29/04/2022",
+                "hora": dt.datetime.now().strftime("%H:%M")
             }
             r = requests.post(f'{self.host}agenda/create', json=json_data)
             self.assertTrue(self.is_server_working(r.status_code))
@@ -76,17 +96,18 @@ class AgendaFunctionalTests(FunctionalTestsBase):
     
     def test_validate_create_two_appointments_at_same_time(self):
         try:
+            hora = dt.datetime.now().strftime("%H:%M")
             json_data = {
                 "profissional_id": 2,
-                "data": "23/04/2021",
-                "hora": "10:30"
+                "data": "23/05/2022",
+                "hora": hora
             }
             r = requests.post(f'{self.host}agenda/create', json=json_data)
             self.assertTrue(self.is_server_working(r.status_code))
             json_data = {
                 "profissional_id": 2,
-                "data": "23/04/2021",
-                "hora": "10:30"
+                "data": "23/05/2022",
+                "hora": hora
             }
             r = requests.post(f'{self.host}agenda/create', json=json_data)
             self.assertTrue(self.check_if_is_bad_request(r.status_code))
@@ -97,13 +118,23 @@ class AgendaFunctionalTests(FunctionalTestsBase):
         try:
             json_data = {
                 "profissional_id": 2,
-                "data": "23/04/1999",
-                "hora": "10:30"
+                "data": "23/09/1999",
+                "hora": dt.datetime.now().strftime("%H:%M")
             }
             r = requests.post(f'{self.host}agenda/create', json=json_data)
             self.assertTrue(self.check_if_is_bad_request(r.status_code))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
+
+    def validate_list_especialidades_json_data(self, json_data):
+        return 'id' in json_data and \
+               'description' in json_data
+    
+    def validate_list_profissionais_json_data(self, json_data):
+        return 'id' in json_data and \
+               'name' in json_data and \
+               'crm' in json_data and \
+               'especialidade' in json_data
 
     def validate_list_json_data(self, json_data):
         return 'profissional' in json_data and \
