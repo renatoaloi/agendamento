@@ -92,6 +92,18 @@ class AgendaFunctionalTests(FunctionalTestsBase):
             self.assertTrue(self.check_if_is_bad_request(r.status_code))
         except Exception as e:
             self.fail(f'Something went badly! Reason: {str(e)}')
+    
+    def test_validate_create_with_date_before_today(self):
+        try:
+            json_data = {
+                "profissional_id": 2,
+                "data": "23/04/1999",
+                "hora": "10:30"
+            }
+            r = requests.post(f'{self.host}agenda/create', json=json_data)
+            self.assertTrue(self.check_if_is_bad_request(r.status_code))
+        except Exception as e:
+            self.fail(f'Something went badly! Reason: {str(e)}')
 
     def validate_list_json_data(self, json_data):
         return 'profissional' in json_data and \
