@@ -18,6 +18,7 @@ function App() {
       <header className="App-header">
         <AppTop logo={logo} modo={modo} />
         {modo == "novo" && <AgendaCreate />} {modo == "lista" && <AgendaList />}
+        {/* Esse é o props hell que inspirou o Redux */}
         <AppBottom
           novo={novo}
           lista={lista}
