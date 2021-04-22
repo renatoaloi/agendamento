@@ -45,3 +45,30 @@ def create_agendamento(json_body):
     novo_agendamento.data_hora = dt_aware
     novo_agendamento.save()
     return novo_agendamento
+
+
+def check_if_agenda_already_exists(json_body):
+    data_hora = dt.datetime.now()
+    jbd = json_body['data']
+    jbh = json_body['hora']
+    s = f'{jbd} {jbh}:00'
+    try:
+        data_hora = dt.datetime.strptime(s, '%d/%m/%Y %H:%M:%S')
+    except:
+        return None
+    agenda_existente = Agenda.objects.filter(data_hora=data_hora.strftime('%Y-%m-%d %H:%M:%S')).first()
+    return agenda_existente
+
+
+def check_if_date_is_from_before_than_today(json_body):
+    data_hora_hoje = dt.datetime.now()
+    jbd = json_body['data']
+    jbh = json_body['hora']
+    s = f'{jbd} {jbh}:00'
+    try:
+        data_hora = dt.datetime.strptime(s, '%d/%m/%Y %H:%M:%S')
+        difference_in_days = (data_hora - data_hora_hoje).days
+        return difference_in_days < 0
+    except:
+        pass
+    return False

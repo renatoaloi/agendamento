@@ -66,7 +66,7 @@ class AgendaFunctionalTests(FunctionalTestsBase):
     
     def test_validate_profissionais_list_json_response(self):
         try:
-            r = requests.get(f'{self.host}agenda/profissionais/list')
+            r = requests.get(f'{self.host}agenda/profissionais/find-by-especialidade/1')
             self.assertTrue(self.is_server_working(r.status_code))
             json_data = r.json()
             for json in json_data:

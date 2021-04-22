@@ -5,13 +5,46 @@ from django.utils import timezone
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
 
-from api.models import Agenda
+from api.models import Agenda, Especialidade, Profissional
 from api.utils import *
+
 
 @require_GET
 def health_check_view(request):
     return JsonResponse(data={})
 
+
+@require_GET
+@futuramente_verificar_login
+def especialidades_list_view(request):
+    json_de_retorno = []
+    especialidades = Especialidade.objects.all()
+    for especialidade in especialidades:
+        json_de_retorno.append(
+            {
+                'id': especialidade.id,
+                'description': especialidade.description
+            }
+        )
+    return JsonResponse(data=json_de_retorno, safe=False)
+
+@require_GET
+@futuramente_verificar_login
+def profissionais_find_by_especialidade_view(request, id):
+    json_de_retorno = []
+    especialidade = Especialidade.objects.filter(id=id).first()
+    if especialidade:
+        profissionais = Profissional.objects.filter(especialidade=especialidade)
+        for profissional in profissionais:
+            json_de_retorno.append(
+                {
+                    'id': profissional.id,
+                    'name': profissional.name,
+                    'crm': profissional.crm,
+                    'especialidade': profissional.especialidade.description
+                }
+            )
+    return JsonResponse(data=json_de_retorno, safe=False)
 
 @require_GET
 @futuramente_verificar_login
@@ -30,31 +63,6 @@ def agenda_list_view(request):
         )
     return JsonResponse(data=json_de_retorno, safe=False)
 
-
-def check_if_agenda_already_exists(json_body):
-    data_hora = dt.datetime.now()
-    jbd = json_body['data']
-    jbh = json_body['hora']
-    s = f'{jbd} {jbh}:00'
-    try:
-        data_hora = dt.datetime.strptime(s, '%d/%m/%Y %H:%M:%S')
-    except:
-        return None
-    agenda_existente = Agenda.objects.filter(data_hora=data_hora.strftime('%Y-%m-%d %H:%M:%S')).first()
-    return agenda_existente
-
-def check_if_date_is_from_before_than_today(json_body):
-    data_hora_hoje = dt.datetime.now()
-    jbd = json_body['data']
-    jbh = json_body['hora']
-    s = f'{jbd} {jbh}:00'
-    try:
-        data_hora = dt.datetime.strptime(s, '%d/%m/%Y %H:%M:%S')
-        difference_in_days = (data_hora - data_hora_hoje).days
-        return difference_in_days < 0
-    except:
-        pass
-    return False
 
 @require_POST
 @futuramente_verificar_login
