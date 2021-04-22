@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -71,6 +72,10 @@ function AgendaList() {
 }
 
 function App() {
+
+  const [novo, setNovo] = useState(false);
+  const [lista, setLista] = useState(false);
+
   return (
     <div className="App">
       <header className="App-header" >
@@ -86,11 +91,21 @@ function App() {
         <AgendaList />
 
         <div className="App-bottom">
-          <div className="Card-bottom">
-            <img src={'notas.png'} className="App-new-icon" />
+          <div className={"Card-bottom" + (novo ? "-inv" : "")}>
+            <img 
+              src={'notas.png'} 
+              className={"App-new-icon" + (novo ? "-inv" : "")}
+              onMouseOver={() => { setNovo(true) }}
+              onMouseOut={() => { setNovo(false) }}
+            />
           </div>
-          <div className="Card-bottom">
-            <img src={'noticia.png'} className="App-new-icon" />
+          <div className={"Card-bottom" + (lista ? "-inv" : "")}>
+            <img 
+              src={'noticia.png'} 
+              className={"App-new-icon" + (lista ? "-inv" : "")}
+              onMouseOver={() => { setLista(true) }}
+              onMouseOut={() => { setLista(false) }}
+            />
           </div>
         </div>
       </header>
