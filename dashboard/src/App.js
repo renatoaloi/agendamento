@@ -75,6 +75,7 @@ function App() {
 
   const [novo, setNovo] = useState(false);
   const [lista, setLista] = useState(false);
+  const [modo, setModo] = useState("novo");
 
   return (
     <div className="App">
@@ -82,29 +83,30 @@ function App() {
         <div className="App-top">
           <img src={logo} className="App-logo" alt="logo" />
           <span className="App-top-title">
-            CONSULTA
+            { modo == "novo" ? "AGENDAMENTO" : "CONSULTA" }
           </span>
         </div>
 
-        {1 == 0 && (<AgendaCreate />)}
-
-        <AgendaList />
-
+        {modo == "novo" && (<AgendaCreate />)}
+        {modo == "lista" && (<AgendaList />)}
+        
         <div className="App-bottom">
           <div className={"Card-bottom" + (novo ? "-inv" : "")}>
             <img 
               src={'notas.png'} 
               className={"App-new-icon" + (novo ? "-inv" : "")}
-              onMouseOver={() => { setNovo(true) }}
-              onMouseOut={() => { setNovo(false) }}
+              onMouseOver={() => setNovo(true) }
+              onMouseOut={() =>  setNovo(false) }
+              onClick={() => setModo("novo")}
             />
           </div>
           <div className={"Card-bottom" + (lista ? "-inv" : "")}>
             <img 
               src={'noticia.png'} 
               className={"App-new-icon" + (lista ? "-inv" : "")}
-              onMouseOver={() => { setLista(true) }}
-              onMouseOut={() => { setLista(false) }}
+              onMouseOver={() => setLista(true) }
+              onMouseOut={() => setLista(false) }
+              onClick={() => setModo("lista")}
             />
           </div>
         </div>
