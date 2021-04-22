@@ -5,18 +5,43 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload 3.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="App-top">
+          Aqui vai o topo
+        </div>
+        <div className="App-content">
+          <form>
+            <label>
+              Especialidade
+              <select>
+                <option value="" selected>Selecione...</option>
+                <option value="1">Nome da Especialidade</option>
+              </select>
+            </label>
+
+            <label>
+              Profissional
+              <select>
+                <option value="" selected>Selecione...</option>
+                <option value="1">Nome do Profissional</option>
+              </select>
+            </label>
+
+            <label>
+              Data para marcação
+              <input type="date" name="data" />
+            </label>
+
+            <label>
+              Hora desejada para a consulta
+              <input type="time" name="hora" />
+            </label>
+
+            <input type="submit" value="ENVIAR" className="Btn-Submit" />
+          </form>
+        </div>
+        <div className="App-bottom">
+          Rodape
+        </div>
       </header>
     </div>
   );

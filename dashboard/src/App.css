@@ -1,5 +1,31 @@
+input, select, textarea, button {
+  font-family: sans-serif;
+  font-size: 1em;
+  display: block;
+  background-color: #666;
+  width:100%;
+  margin-top: .2em;
+  border-radius: 6px;
+  min-height: 1.8em;
+}
+
+label {
+  margin-top: 1em;
+  color: aliceblue;
+  display: block;
+}
+
+.Btn-Submit {
+  margin-top: 1em;
+  margin-left: 0.2em;
+  min-height: 2.5em;
+  background-color: #791a4e;
+  border-color: #753f5d;
+  color: aliceblue;
+}
+
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -22,6 +48,21 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-top {
+  background-color: #791a4e;
+  min-height: 10vh;
+}
+
+.App-content {
+  background-color: #282c34;
+  min-height: 80vh;
+}
+
+.App-bottom {
+  background-color: #791a4e;
+  min-height: 10vh;
 }
 
 .App-link {
