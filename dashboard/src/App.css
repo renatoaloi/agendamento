@@ -23,8 +23,9 @@ label {
 
 .Card-Titulo {
   font-size: 1.2em;
-  color: aqua;
+  color: #f7c0e1;
   margin-top: 0em;
+  font-weight: 600;
 }
 
 .Card-Especialidade {
@@ -54,8 +55,8 @@ label {
 
 .Card-List-Date {
   padding: .5em;
-  color: #791a4e;
-  font-weight: 700;
+  color: aqua;
+  font-weight: 600;
 }
 
 .Btn-Submit {
