@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Agenda.css";
+import moment from 'moment';
 
 export default function AgendaCreate() {
   const [especialidade, setEspecialidade] = useState("");
@@ -8,11 +9,32 @@ export default function AgendaCreate() {
   const [hora, setHora] = useState("");
   const [sending, setSending] = useState(false);
 
+  const checkIfAllFieldsAreValid = () => {
+    return especialidade != ""
+           && profissional != ""
+           && data != ""
+           && hora != "";
+  }
+
+  const checkIfDateAndTimeAreValid = () => {
+    try {
+      let dt = moment(data + " " + hora + ":00", "YYYY-MM-DD HH:mm:ss");  
+      console.log(dt);
+      return dt.isValid();
+    } catch (error) {
+      console.log(error)
+    } 
+    return false;
+  }
+
   const onContinuar = (e) => {
     e.preventDefault();
-    setSending(!sending);
-    e.target.value = "Aguarde...";
-    //alert(e.target.value);
+
+    if (checkIfAllFieldsAreValid() && checkIfDateAndTimeAreValid()) {
+      setSending(!sending);
+      e.target.value = "Aguarde...";
+      //alert(e.target.value);
+    }
   };
 
   return (
@@ -37,7 +59,7 @@ export default function AgendaCreate() {
             Profissional
             <select
               required
-              value={especialidade}
+              value={profissional}
               onChange={(e) => setProfissional(e.target.value)}
             >
               <option value="" selected>
