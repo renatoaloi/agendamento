@@ -3,10 +3,7 @@ import './App.css';
 
 function AgendaCreate() {
   return (
-    <header className="App-header" >
-      <div className="App-top">
-        Aqui vai o topo
-      </div>
+    <>
       <div className="App-content">
         <form>
           <label>
@@ -38,19 +35,13 @@ function AgendaCreate() {
           <input type="submit" value="Continuar" className="Btn-Submit" />
         </form>
       </div>
-      <div className="App-bottom">
-        Rodape
-      </div>
-    </header>
+    </>
   );
 }
 
 function AgendaList() {
   return (
-    <header className="App-header">
-      <div className="App-top">
-        Aqui vai o topo
-      </div>
+    <>
       <div className="App-content">
         <div className="Card-List">
           <div className="Card-List-Date">
@@ -58,7 +49,7 @@ function AgendaList() {
             <div>Abr</div>
           </div>
           <div className="Card-List-Body">
-            <p className="Card-Titulo">Chamada de vídeo com <br/>Dr. Fulano</p>
+            <p className="Card-Titulo">Chamada de vídeo com <br />Dr. Fulano</p>
             <p className="Card-Especialidade">Psicologia - CRM 1234</p>
             <p className="Card-Data-Hora">Início as 12:12</p>
           </div>
@@ -69,27 +60,40 @@ function AgendaList() {
             <div>Mai</div>
           </div>
           <div className="Card-List-Body-Alternative">
-          <p className="Card-Titulo">Chamada de vídeo com <br/>Dr. Fulano</p>
+            <p className="Card-Titulo">Chamada de vídeo com <br />Dr. Fulano</p>
             <p className="Card-Especialidade">Psicologia - CRM 1234</p>
             <p className="Card-Data-Hora">Início as 12:12</p>
           </div>
         </div>
       </div>
-      <div className="App-bottom">
-        Rodape
-      </div>
-    </header>
+    </>
   );
 }
 
 function App() {
   return (
     <div className="App">
-      { 1==0 && (
-        <AgendaCreate />
-      )}
+      <header className="App-header" >
+        <div className="App-top">
+          <img src={logo} className="App-logo" alt="logo" />
+          <span className="App-top-title">
+            CONSULTA
+          </span>
+        </div>
 
-      <AgendaList />
+        {1 == 0 && (<AgendaCreate />)}
+
+        <AgendaList />
+
+        <div className="App-bottom">
+          <div className="Card-bottom">
+            <img src={'notas.png'} className="App-new-icon" />
+          </div>
+          <div className="Card-bottom">
+            <img src={'noticia.png'} className="App-new-icon" />
+          </div>
+        </div>
+      </header>
     </div>
   );
 }
