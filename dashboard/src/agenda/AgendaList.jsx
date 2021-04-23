@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import axios from "axios";
-import moment from 'moment';
 import ReactLoading from 'react-loading';
-
-function useConstructor(callBack = () => {}) {
-  const [hasBeenCalled, setHasBeenCalled] = useState(false);
-  if (hasBeenCalled) return;
-  callBack();
-  setHasBeenCalled(true);
-}
+import { useConstructor } from '../utils';
 
 export default function AgendaList() {
   useConstructor(() => {
