@@ -6,17 +6,55 @@ import ReactLoading from "react-loading";
 import axios from "axios";
 
 export default function AgendaCreate() {
-  useConstructor(() => {});
+  useConstructor(() => {
+    loadEspecialidades();
+  });
 
+  const [especialidades, setEspecialidades] = useState([]);
+  const [profissionals, setProfissionals] = useState([]);
   const [especialidade, setEspecialidade] = useState("");
   const [profissional, setProfissional] = useState("");
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
   const [sending, setSending] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(false);
   const [ok, setOk] = useState(false);
   const [error_msg, setErrorMsg] = useState("Não foi possível enviar consulta!")
+
+  function loadEspecialidades() {
+    axios.get("/agenda/especialidades/list")
+    .then(function (response) {
+      console.clear();
+      console.log(response.data);
+      setEspecialidades(response.data);
+      setLoading(false);
+    })
+    .catch(function (error) {
+      setErrorMsg("Erro ao carregar especialidades!");
+      setErr(true);
+      console.log(error);
+    });
+  }
+
+  function loadProfissionaisByEspecialidadeId(especialidadeId) {
+    axios.get("/agenda/profissionais/find-by-especialidade/" + especialidadeId)
+    .then(function (response) {
+      console.clear();
+      console.log(response.data);
+      setProfissionals(response.data);
+    })
+    .catch(function (error) {
+      setErrorMsg("Erro ao carregar profissionais!");
+      setErr(true);
+      console.log(error);
+    });
+  }
+
+  const changeEspecialidade = (e) => {
+    loadProfissionaisByEspecialidadeId(e.target.value);
+    setEspecialidade(e.target.value);
+  }
 
   const checkIfAllFieldsAreValid = () => {
     return (
@@ -44,12 +82,17 @@ export default function AgendaCreate() {
       setLoading(true);
       setSending(true);
       e.target.value = "Aguarde...";
-      
-      axios.post("/agenda/create", {
+
+      const post_data = {
         'profissional_id': profissional,
-        'data': data,
+        'data': moment(data).format("DD/MM/YYYY"),
         'hora': hora
-      })
+      };
+
+      console.clear();
+      console.log(post_data);
+      
+      axios.post("/agenda/create", post_data)
       .then(function (response) {
         setData(response.data);
         //setLoading(!loading);
@@ -74,6 +117,20 @@ export default function AgendaCreate() {
     }
   };
 
+  const tentarNovamente = (limparCampos) => {
+    loadEspecialidades();
+    if (limparCampos) {
+      setEspecialidade("");
+      setProfissional("");
+      setData("");
+      setHora("");
+    }
+    setSending(false);
+    setLoading(false);
+    setOk(false);
+    setErr(false);
+  }
+
   return (
     <>
       <div className="App-content">
@@ -84,12 +141,16 @@ export default function AgendaCreate() {
               <select
                 required
                 value={especialidade}
-                onChange={(e) => setEspecialidade(e.target.value)}
+                onChange={(e) => changeEspecialidade(e)}
               >
                 <option value="" selected>
                   Selecione...
                 </option>
-                <option value="1">Nome da Especialidade</option>
+                {especialidades.map(m => {
+                  return(
+                    <option value={m.id}>{m.description}</option>
+                  );
+                })}
               </select>
             </label>
 
@@ -103,7 +164,11 @@ export default function AgendaCreate() {
                 <option value="" selected>
                   Selecione...
                 </option>
-                <option value="1">Nome do Profissional</option>
+                {profissionals.map(m => {
+                  return(
+                    <option value={m.id}>Dr(a). {m.name}</option>
+                  );
+                })}
               </select>
             </label>
 
@@ -138,6 +203,14 @@ export default function AgendaCreate() {
             />
           </form>
         )}
+        {loading && !sending && !err && !ok && (
+          <div>
+            <p>
+              Carregando...
+            </p>
+            <ReactLoading type="bars" color="#FFFFFF" height="100%" width="100%" />
+          </div>
+        )}
         {sending && loading && !err && !ok && (
           <div>
             <p>
@@ -149,11 +222,23 @@ export default function AgendaCreate() {
         {err && (
           <div>
             <p>{error_msg}</p>
+            <input
+              type="button"
+              value="Tentar novamente"
+              className="Btn-Submit"
+              onClick={() => tentarNovamente(false)}
+            />
           </div>
         )}
         {loading && ok && (
           <div>
             <p>Consulta enviada com sucesso!</p>
+            <input
+              type="button"
+              value="Criar nova consulta"
+              className="Btn-Submit"
+              onClick={() => tentarNovamente(true)}
+            />
           </div>
         )}
       </div>
