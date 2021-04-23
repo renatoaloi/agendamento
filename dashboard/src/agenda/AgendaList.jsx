@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from "axios";
 import moment from 'moment';
+import ReactLoading from 'react-loading';
 
 function useConstructor(callBack = () => {}) {
   const [hasBeenCalled, setHasBeenCalled] = useState(false);
@@ -12,20 +13,23 @@ function useConstructor(callBack = () => {}) {
 export default function AgendaList() {
   useConstructor(() => {
     loadData();
-    console.log(
-      "This only happens ONCE and it happens BEFORE the initial render."
-    );
   });
 
   const [ data, setData ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
+  const [ err, setErr ] = useState(false);
 
   function loadData() {
     axios
       .get("/agenda/list")
       .then(function (response) {
         setData(response.data);
+        setLoading(!loading);
+        setErr(false);
       })
       .catch(function (error) {
+        setLoading(!loading);
+        setErr(true);
         console.log(error);
       });
   }
@@ -38,24 +42,39 @@ export default function AgendaList() {
   return (
     <>
       <div className="App-content">
-      {data.map((m) => { 
-        return(
-          <div className="Card-List">
-            <div className="Card-List-Date">
-              <div>{m.data.substr(0,2)}</div>
-              <div>{findMonthByNumber(m.data.substr(3, 2))}</div>
+        {!loading && data.map((m) => { 
+          return(
+            <div className="Card-List">
+              <div className="Card-List-Date">
+                <div>{m.data.substr(0,2)}</div>
+                <div>{findMonthByNumber(m.data.substr(3, 2))}</div>
+              </div>
+              <div className="Card-List-Body">
+                <p className="Card-Titulo">
+                  Chamada de vídeo com <br />
+                  Dr. {m.profissional}
+                </p>
+                <p className="Card-Especialidade">{m.especialidade} - CRM {m.crm}</p>
+                <p className="Card-Data-Hora">Início as {m.hora}</p>
+              </div>
             </div>
-            <div className="Card-List-Body">
-              <p className="Card-Titulo">
-                Chamada de vídeo com <br />
-                Dr. {m.profissional}
-              </p>
-              <p className="Card-Especialidade">{m.especialidade} - CRM {m.crm}</p>
-              <p className="Card-Data-Hora">Início as {m.hora}</p>
-            </div>
+          );
+        })}
+        {loading && (
+          <div>
+            <p>
+              Carregando...
+            </p>
+            <ReactLoading type="bars" color="#FFFFFF" height="100%" width="100%" />
           </div>
-        );
-      })}
+        )}
+        {!loading && err && (
+          <div>
+            <p>
+              Não foi possível carregar a lista!
+            </p>
+          </div>
+        )}
       </div>
     </>
   );
