@@ -9,6 +9,11 @@ from api.models import Profissional, Especialidade
 
 class FunctionalTestsBase(LiveServerTestCase):
 
+    def setUp(self):
+        staging_server = os.environ.get('STAGING_SERVER', False)
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
+
     def is_server_working(self, status_code):
         return status_code == 200
     
