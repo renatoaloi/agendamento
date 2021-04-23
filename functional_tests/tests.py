@@ -9,20 +9,6 @@ from api.models import Profissional, Especialidade
 
 class FunctionalTestsBase(LiveServerTestCase):
 
-    def __init__(self, test):
-        super().__init__(test)
-        self.base_set_up(test)
-        # self.host = os.environ.get('APP_HOST', 'http://localhost:8000/')
-
-    # def setUp(self):
-    #     print(f'Test {self.my_name} is up and running!')
-
-    # def tearDown(self):
-    #     print(f'Test {self.my_name} is going down!')
-
-    def base_set_up(self, child_name):
-        self.my_name = child_name
-
     def is_server_working(self, status_code):
         return status_code == 200
     
@@ -31,9 +17,6 @@ class FunctionalTestsBase(LiveServerTestCase):
 
 
 class HealthFunctionalTests(FunctionalTestsBase):
-
-    def __init__(self, test):
-        super().__init__(test)
 
     def test_if_server_is_up_and_running(self):
         try:
@@ -44,9 +27,6 @@ class HealthFunctionalTests(FunctionalTestsBase):
 
 
 class AgendaFunctionalTests(FunctionalTestsBase):
-
-    def __init__(self, test):
-        super().__init__(test)
     
     def test_validate_list_json_response(self):
         try:
@@ -188,7 +168,3 @@ class AgendaFunctionalTests(FunctionalTestsBase):
                'profissional' in json_data and \
                'data' in json_data and \
                'hora' in json_data
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')

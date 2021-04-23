@@ -49,6 +49,7 @@ def create_agendamento(json_body):
 
 def check_if_agenda_already_exists(json_body):
     data_hora = dt.datetime.now()
+    profissional_id = json_body['profissional_id']
     jbd = json_body['data']
     jbh = json_body['hora']
     s = f'{jbd} {jbh}:00'
@@ -56,7 +57,11 @@ def check_if_agenda_already_exists(json_body):
         data_hora = dt.datetime.strptime(s, '%d/%m/%Y %H:%M:%S')
     except:
         return None
-    agenda_existente = Agenda.objects.filter(data_hora=data_hora.strftime('%Y-%m-%d %H:%M:%S')).first()
+    agenda_existente = Agenda.objects.filter(
+                            data_hora=timezone.make_aware(data_hora)
+                        ).filter(
+                            profissional_id=profissional_id
+                        ).first()
     return agenda_existente
 
 
