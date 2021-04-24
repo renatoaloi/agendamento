@@ -5,6 +5,9 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 apt update
 apt upgrade
 apt install nginx -y
+rm -rf /etc/nginx/sites-available/default
+echo -e "server {\n\tlisten 80;\n\tlisten [::]:80;\n\tlocation / {\n\t\tproxy_pass http://localhost:8000;\n\t}\n}" > /etc/nginx/sites-available/default
+#ln -s /etc/nginx/sites-available/agendasite /etc/nginx/sites-enabled/agendasite
 service nginx start
 apt install software-properties-common -y
 whereis python
