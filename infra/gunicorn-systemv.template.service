@@ -41,6 +41,10 @@ case "$1" in
   start)
         log_daemon_msg "Starting deferred execution scheduler" "$APPNAME"
         source $ACTIVATE
+        if [ ! -f "$LOGFILE"]; then
+          touch $LOGFILE
+          chmod a+w $LOGFILE
+        fi
         $DAEMON --daemon --bind=$BIND --pid=$PIDFILE --workers=$WORKERS --user=$USER --log-file=$LOGFILE $APPMODULE
         log_end_msg $?
     ;;

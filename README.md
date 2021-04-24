@@ -50,6 +50,12 @@ Baseado em react, o dashboard é uma aplicação simples de apenas 2 páginas.
 > docker stop agendasrv
 ```
 
+#### Fabric3 Deploy to Raspberry Pi
+
+```
+> fab deploy:host=192.168.15.18 -u pi
+```
+
 #### Gerar Djangos' secret key
 
 ```

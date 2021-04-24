@@ -22,7 +22,7 @@ def _prepare_environment(app_folder):
     run('export SECRET_KEY="0av%xx7jd0tlp$ifa29a24vr82(mp^#w5an+0z74w+_-dd97ty"')
     run('export DEBUG="False"')
     run(f'export APPPATH={app_folder}')
-    run(f'export PYTHONPATH={app_folder}')
+    run(f'export PYTHONPATH={app_folder}/src')
     run('sudo apt upgrade -y')
     run('sudo apt update -y')
     #run('export TZ="America/Sao_Paulo"')
