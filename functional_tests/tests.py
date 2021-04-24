@@ -112,14 +112,14 @@ class AgendaFunctionalTests(FunctionalTestsBase):
             hora = dt.datetime.now().strftime("%H:%M")
             json_data = {
                 "profissional_id": profissional_id,
-                "data": "23/05/2022",
+                "data": "24/06/2022",
                 "hora": hora
             }
             r = requests.post(f'{self.live_server_url}/agenda/create', json=json_data)
             self.assertTrue(self.is_server_working(r.status_code))
             json_data = {
                 "profissional_id": other_profissional_id,
-                "data": "23/05/2022",
+                "data": "24/06/2022",
                 "hora": hora
             }
             r = requests.post(f'{self.live_server_url}/agenda/create', json=json_data)
