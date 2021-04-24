@@ -1,0 +1,24 @@
+1  apt update
+    2  apt upgrade
+    3  apt install nginx
+    4  service nginx start
+    5  apt-cache search python
+    6  apt-cache search python3.6
+    7  apt-cache search python3-6
+    8  apt-cache search python3_6
+    9  apt-cache search python3
+   10  apt install python3.6
+   11  apt-get install software-properties-common
+   12  whereis python
+   13  python --version
+   14  python3.8 --version
+   15  apt install git
+   16  history
+   17  software-properties
+   18  apt-show software-properties-common
+   19  add-apt-repository ppa:deadsnakes/ppa
+   20  apt update
+   21  apt-get install python3.8
+   22  python
+   23  python3.8 --version
+   24  history
