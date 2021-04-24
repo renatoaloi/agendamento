@@ -14,7 +14,7 @@
 # Author:       mle <geobi@makina-corpus.net>
 # Revisor:      Renato Aloi <renato.aloi@gmail.com>
 #
-APPPATH=/app
+#APPPATH=/app env var
 APPNAME=agendamento
 USER=root
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
@@ -25,7 +25,7 @@ BIND=unix:/tmp/agendamento.socket
 PIDFILE=/var/run/gunicorn.pid
 LOGFILE=/var/log/$DAEMON.log
 WORKERS=2
-export PYTHONPATH=$APPPATH
+#export PYTHONPATH=$APPPATH
 
 
 . /lib/lsb/init-functions

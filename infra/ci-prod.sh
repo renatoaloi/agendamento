@@ -2,6 +2,8 @@
 export SECRET_KEY="0av%xx7jd0tlp$ifa29a24vr82(mp^#w5an+0z74w+_-dd97ty"
 export DEBUG="False"
 export TZ="America/Sao_Paulo"
+export APPPATH=/app
+export PYTHONPATH=$APPPATH
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 apt update
 apt upgrade
