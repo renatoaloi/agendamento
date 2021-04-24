@@ -54,11 +54,11 @@ def _update_database(src_folder):
 def _configure_gunicorn(app_folder, src_folder, app_name):
     run(f'sudo cp {src_folder}/infra/gunicorn-systemv.template.service /etc/init.d/{app_name}')
     run(f'sudo chmod a+x /etc/init.d/{app_name}')
-    #run(f"sudo sed -i -e 's/\\r//g' /etc/init.d/{app_name}")
+    run(f"sudo sed -i -e 's/\\r//g' /etc/init.d/{app_name}")
     escaped_app_folder = app_folder.replace('/', '\\/')
-    run(f'sudo sed "s/APPPATH=.*$/APPPATH={escaped_app_folder}/g" /etc/init.d/{app_name} | sudo tee /etc/init.d/{app_name}')
+    run(f'sudo sed -i "s/APPPATH=.*$/APPPATH={escaped_app_folder}/g" /etc/init.d/{app_name}')
     escaped_src_folder = src_folder.replace('/', '\\/')
-    run(f'sudo sed "s/SRCPATH=.*$/SRCPATH={escaped_src_folder}/g" /etc/init.d/{app_name} | sudo tee /etc/init.d/{app_name}')
+    run(f'sudo sed -i "s/SRCPATH=.*$/SRCPATH={escaped_src_folder}/g" /etc/init.d/{app_name}')
     run('sudo systemctl daemon-reload')
 
 def _configure_nginx(src_folder):
