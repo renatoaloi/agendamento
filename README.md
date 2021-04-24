@@ -44,7 +44,7 @@ Baseado em react, o dashboard é uma aplicação simples de apenas 2 páginas.
 #### Docker commands
 
 ```
-> docker run -it -d --rm --name agendasrv -p 80:8000 -v C:\Users\gracc\agendamento\infra\deploy:/deploy ubuntu bash
+> docker run -it -d --rm --name agendasrv -p 80:80 -v C:\Users\gracc\agendamento\infra:/infra ubuntu bash
 > docker ps
 > docker exec -it agendasrv bash
 > docker stop agendasrv

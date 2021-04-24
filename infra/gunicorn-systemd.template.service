@@ -1,0 +1,10 @@
+[Unit]
+Description=Gunicorn server for agendamento
+
+[Service]
+Restart=on-failure
+WorkingDirectory=/app
+ExecStart=/app/virtualenv/bin/gunicorn --bind unix:/tmp/agendamento.socket agenda.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
