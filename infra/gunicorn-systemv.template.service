@@ -19,6 +19,7 @@ APPNAME=agendamento
 USER=root
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 ACTIVATE=$APPPATH/virtualenv/bin/activate
+VIRTUALENV_BIN=$APPPATH/virtualenv/bin
 APPMODULE=agenda.wsgi:application
 DAEMON=gunicorn
 BIND=unix:/tmp/agendamento.socket
@@ -44,8 +45,8 @@ case "$1" in
           touch $LOGFILE
           chmod a+w $LOGFILE
         fi
-        source $ACTIVATE
-        $DAEMON --daemon --bind=$BIND --pid=$PIDFILE --workers=$WORKERS --user=$USER --log-file=$LOGFILE $APPMODULE
+        #source $ACTIVATE
+        $VIRTUALENV_BIN/$DAEMON --daemon --bind=$BIND --pid=$PIDFILE --workers=$WORKERS --user=$USER --log-file=$LOGFILE $APPMODULE
         log_end_msg $?
     ;;
   stop)
