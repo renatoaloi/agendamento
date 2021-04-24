@@ -49,3 +49,10 @@ Baseado em react, o dashboard é uma aplicação simples de apenas 2 páginas.
 > docker exec -it agendasrv bash
 > docker stop agendasrv
 ```
+
+#### Gerar Djangos' secret key
+
+```
+>>> from django.core.management.utils import get_random_secret_key
+>>> print(get_random_secret_key())
+```
