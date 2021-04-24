@@ -34,10 +34,20 @@ python manage.py migrate --noinput
 
 apt install python3-venv -y
 
-python -m venv /app/virtualenv
+
+mkdir -p virtualenv
+python -m venv virtualenv
 ls virtualenv/bin/
 
+./virtualenv/bin/pip install wheel
+
 ./virtualenv/bin/pip install -r requirements.txt
+
+mkdir /database
+
+./virtualenv/bin/python manage.py migrate --noinput
+
+./virtualenv/bin/python manage.py loaddata especialidades profissionais
 
 ./virtualenv/bin/python manage.py runserver
 
