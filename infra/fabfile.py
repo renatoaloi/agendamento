@@ -14,6 +14,7 @@ def deploy():
     _update_virtualenv(src_folder)
     _update_static_files(src_folder)
     _update_database(src_folder)
+    _load_data_fixtures(src_folder)
     _configure_gunicorn(app_folder, src_folder, app_name)
     _configure_nginx(src_folder)
     _start_services()
@@ -50,6 +51,9 @@ def _update_static_files(src_folder):
 
 def _update_database(src_folder):
     run(f'cd {src_folder} && ../virtualenv/bin/python manage.py migrate --no-input')
+
+def _load_data_fixtures(src_folder):
+    run(f'cd {src_folder} && ../virtualenv/bin/python manage.py loaddata especialidades profissionais --no-input')
 
 def _configure_gunicorn(app_folder, src_folder, app_name):
     run(f'sudo cp {src_folder}/infra/gunicorn-systemv.template.service /etc/init.d/{app_name}')
