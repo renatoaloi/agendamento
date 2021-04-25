@@ -112,15 +112,173 @@ http://localhost:8000/health-check
 > python manage.py test
 ```
 
-Para rodar apenas os testes funcionais execute o seguinte:
+- Para rodar apenas os testes funcionais execute o seguinte:
 ```
 > python manage.py test functional_tests
 ```
 
-Para rodar apenas os testes unitários execute o seguinte:
+- Para rodar apenas os testes unitários execute o seguinte:
 ```
 > python manage.py test api
 ```
+
+###  Montagem do ambiente de STAGING
+
+- Clonar o codigo fonte e acessar a pasta do projeto:
+```
+> git clone https://github.com/renatoaloi/agendamento.git
+> cd agendamento
+```
+
+- Criar uma instância de um container Linux (eu optei por um ubuntu):
+```
+> docker run -it -d --rm --name agendasrv -p 8000:8000 -v C:\Users\seu_user\agendamento\infra:/infra ubuntu bash
+```
+
+- Para conectar na instância, execute:
+```
+> docker exec -it agendasrv bash
+```
+
+- Executar o script ```ci-dev.sh```, dentro da pasta ```infra```.
+```
+> ./infra/ci-dev.sh
+```
+
+- Para testar, abra o navegador e acesse:
+```
+http://localhost:8000/health-check
+```
+
+- Para desligar a instância, execute:
+```
+> docker stop agendasrv
+```
+
+### Testes Funcionais e Unitários
+
+- Conecte em uma nova instância, execute em um outro terminal:
+```
+> docker exec -it agendasrv bash
+```
+
+- Crie uma variável de ambiente para definir a url de staging:
+```
+> export STAGING_SERVER=localhost:8000
+```
+
+- Altere a pasta para a do aplicativo:
+```
+> cd /app
+```
+
+- Para rodar todos os testes funcionais e unitários execute o seguinte:
+```
+> ./virtualenv/bin/python manage.py test
+```
+
+- Para rodar apenas os testes funcionais execute o seguinte:
+```
+> ./virtualenv/bin/python manage.py test functional_tests
+```
+
+- Para rodar apenas os testes unitários execute o seguinte:
+```
+> ./virtualenv/bin/python manage.py test api
+```
+
+### Montagem do ambiente de PROD
+
+- Clonar o codigo fonte e acessar a pasta do projeto:
+```
+> git clone https://github.com/renatoaloi/agendamento.git
+> cd agendamento
+```
+
+- Criar uma instância de um container Linux (eu optei por um ubuntu):
+```
+> docker run -it -d --rm --name agendasrv -p 80:80 -v C:\Users\seu_user\agendamento\infra:/infra ubuntu bash
+```
+
+- Para conectar na instância, execute:
+```
+> docker exec -it agendasrv bash
+```
+
+- Executar o script ```ci-prod.sh```, dentro da pasta ```infra```.
+```
+> ./infra/ci-prod.sh
+```
+
+- Para testar, abra o navegador e acesse:
+```
+http://localhost/health-check
+```
+
+- Para desligar a instância, execute:
+```
+> docker stop agendasrv
+```
+
+### Testes Funcionais e Unitários
+
+- Conecte em uma nova instância, execute em um outro terminal:
+```
+> docker exec -it agendasrv bash
+```
+
+- Crie uma variável de ambiente para definir a url de staging:
+```
+> export STAGING_SERVER=localhost
+```
+
+- Altere a pasta para a do aplicativo:
+```
+> cd /app
+```
+
+- Para rodar todos os testes funcionais e unitários execute o seguinte:
+```
+> ./virtualenv/bin/python manage.py test
+```
+
+- Para rodar apenas os testes funcionais execute o seguinte:
+```
+> ./virtualenv/bin/python manage.py test functional_tests
+```
+
+- Para rodar apenas os testes unitários execute o seguinte:
+```
+> ./virtualenv/bin/python manage.py test api
+```
+
+### CD/CI
+
+#### Script Fabric3
+
+Para rodar o script ```fabfile.py``` você precisará de um servidor cloud com acesso via SSH ou, no meu caso, um Raspberry Pi com uma imagem Debian instalada e configurada.
+
+-Execute os comandos:
+
+```
+> git clone https://github.com/renatoaloi/agendamento.git
+> cd agendamento
+> virtualenv env
+> .\env\Scripts\activate
+> pip install -r requirements.txt
+> cd infra
+> fab deploy:host=192.168.15.18 -u pi
+> deactivate
+```
+
+- Para testar, abra o navegador e acesse:
+```
+http://192.168.15.18/health-check
+```
+
+#### Servidor Jenkins
+
+[ em desenvolvimento]
 
 ## Frontend
 
@@ -142,39 +300,7 @@ Em seguida apenas atualizar as dependências e levantar o ambiente:
 > npm start
 ```
 
-### STAGING
-
-Criar uma instância de um container Linux (eu optei por um ubuntu):
-
-```
-> docker run -it -d --rm --name agendasrv -p 8000:8000 -v C:\Users\seu_user\agendamento\infra:/infra ubuntu bash
-```
-Para conectar na instância, execute:
-
-```
-> docker exec -it agendasrv bash
-```
-
-Executar o script ```ci-dev.sh```, dentro da pasta ```infra```.
-
-```
-> ./infra/ci-dev.sh
-```
-
-Para desligar a instância, execute:
-
-```
-> docker stop agendasrv
-```
-
-### PROD
-
-### CD/CI
-
-#### Script Fabric3
-
-#### Servidor Jenkins
-
+## Utilidades
 
 #### Docker commands
 
